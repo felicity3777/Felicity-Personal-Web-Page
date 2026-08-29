@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张琪琪 · 个人作品集</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+:root {
+  --primary:#1a365d; --accent:#3182ce; --warm:#ed8936;
+  --purple:#805ad5; --teal:#00a3a3; --pink:#db2777; --green:#059669;
+  --bg:#f7fafc; --card:#fff; --text:#2d3748; --text-deep:#1a202c;
+  --text-light:#718096; --text-lighter:#a0aec0; --border:#e2e8f0;
+  --shadow:0 4px 24px rgba(26,54,93,0.08); --shadow-hover:0 8px 32px rgba(26,54,93,0.15);
+  --radius:16px; --serif:'Noto Serif SC',Georgia,serif; --sans:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;}
+#dotCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+/* 导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--primary);letter-spacing:1px;}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-link{padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--text-light);transition:all .25s ease;}
+.nav-link:hover{color:var(--primary);background:rgba(49,130,206,0.08);}
+.nav-link.active{color:var(--accent);background:rgba(49,130,206,0.1);}
+.nav-resume{margin-left:10px;padding:7px 18px;background:var(--primary);color:#fff;border-radius:8px;font-size:13px;font-weight:500;transition:all .25s ease;display:flex;align-items:center;gap:6px;}
+.nav-resume:hover{background:var(--accent);transform:translateY(-1px);box-shadow:0 4px 12px rgba(49,130,206,0.3);}
+.nav-menu-btn{display:none;}
+
+/* Section通用 */
+.section{position:relative;z-index:1;padding-top:60px;}
+.container{max-width:1000px;margin:0 auto;padding:56px 32px;}
+.section-title{font-family:var(--serif);font-size:30px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.section-title-en{font-size:13px;color:var(--text-lighter);text-transform:uppercase;letter-spacing:3px;font-weight:300;margin-bottom:36px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes bounceDown{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+
+.scroll-down{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;color:var(--accent);animation:bounceDown 2s ease-in-out infinite;transition:all .3s ease;z-index:3;border:1px solid var(--border);}
+.scroll-down:hover{background:var(--accent);color:#fff;transform:translateX(-50%) translateY(4px);box-shadow:0 6px 20px rgba(49,130,206,0.35);}
+
+/* ===== 首页 ===== */
+#home{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:90px 24px 60px;}
+.home-wrap{display:flex;gap:28px;max-width:960px;width:100%;align-items:stretch;}
+.id-card-wrap{flex:0 0 300px;display:flex;}
+.id-card{background:var(--card);border-radius:16px;box-shadow:0 8px 40px rgba(26,54,93,0.15);padding:32px 24px 24px;position:relative;z-index:1;border:1px solid var(--border);overflow:hidden;width:100%;display:flex;flex-direction:column;}
+.id-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--warm));}
+.id-photo{width:90px;height:90px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 16px;box-shadow:0 4px 16px rgba(26,54,93,0.15);border:3px solid #fff;}
+.id-name-row{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:8px;}
+.id-name{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--text-deep);letter-spacing:2px;}
+.id-english{font-size:13px;color:var(--accent);font-weight:500;letter-spacing:1px;}
+.id-badge{display:block;width:fit-content;margin:0 auto 16px;padding:3px 14px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-radius:20px;font-size:11px;font-weight:500;letter-spacing:1px;}
+.id-divider{width:32px;height:2px;background:var(--border);margin:0 auto 14px;}
+.id-contact-label{font-size:10px;color:var(--text-lighter);text-transform:uppercase;letter-spacing:1.5px;text-align:center;margin-bottom:4px;}
+.id-contact{font-size:12px;color:var(--accent);text-align:center;word-break:break-all;margin-bottom:16px;}
+.id-motto{text-align:center;padding-top:14px;border-top:1px dashed var(--border);}
+.id-motto-cn{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--primary);margin-bottom:3px;}
+.id-motto-en{font-size:9px;color:var(--text-lighter);line-height:1.5;font-style:italic;}
+.id-skills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);}
+.id-skill-tag{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:500;letter-spacing:.5px;}
+.id-skill-tag:nth-child(1){background:rgba(49,130,206,0.1);color:var(--accent);}
+.id-skill-tag:nth-child(2){background:rgba(128,90,213,0.1);color:var(--purple);}
+.id-skill-tag:nth-child(3){background:rgba(237,137,54,0.1);color:var(--warm);}
+.id-skill-tag:nth-child(4){background:rgba(0,163,163,0.1);color:var(--teal);}
+.id-skill-tag:nth-child(5){background:rgba(219,39,119,0.1);color:var(--pink);}
+
+.intro-box{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:32px;flex:1;border:1px solid var(--border);display:flex;flex-direction:column;}
+.intro-title{font-family:var(--serif);font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px;}
+.intro-self{background:linear-gradient(135deg,rgba(49,130,206,0.04),rgba(128,90,213,0.04));border-radius:12px;padding:16px 18px;margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.9;border-left:3px solid var(--accent);}
+.intro-self strong{color:var(--accent);}
+.intro-text{font-size:13px;color:var(--text);line-height:1.9;margin-bottom:8px;}
+.intro-nav-btns{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap;}
+.intro-nav-btn{padding:10px 22px;border-radius:10px;font-size:13px;font-weight:500;transition:all .3s ease;display:inline-flex;align-items:center;gap:6px;}
+.intro-nav-btn.primary{background:var(--primary);color:#fff;}
+.intro-nav-btn.primary:hover{background:var(--accent);transform:translateY(-2px);box-shadow:0 4px 14px rgba(49,130,206,0.3);}
+.intro-nav-btn.outline{border:1.5px solid var(--border);color:var(--text);}
+.intro-nav-btn.outline:hover{border-color:var(--accent);color:var(--accent);}
+.intro-note{margin-top:auto;padding-top:16px;border-top:1px dashed var(--border);}
+.intro-note p{font-size:12px;color:var(--text-light);line-height:1.7;}
+.intro-alert{background:#fffbeb;border-left:3px solid var(--warm);padding:10px 14px;border-radius:0 8px 8px 0;font-size:12px;color:#92400e;line-height:1.6;margin-top:10px;}
+
+/* ===== 关于我：三栏目滑动（球在直线上） ===== */
+.about-header{margin-bottom:20px;position:relative;}
+.about-bold-line{height:3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--purple));border-radius:2px;margin-bottom:0;}
+.about-tabs{display:flex;gap:40px;justify-content:center;margin-top:-30px;position:relative;z-index:2;}
+.about-tab{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .3s ease;padding:8px 16px;border-radius:12px;}
+.about-tab:hover{background:rgba(49,130,206,0.04);}
+.about-tab-ball{width:52px;height:52px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .3s ease;box-shadow:var(--shadow);font-size:20px;}
+.about-tab.active .about-tab-ball{background:linear-gradient(135deg,var(--primary),var(--accent));border-color:var(--accent);color:#fff;transform:scale(1.12);box-shadow:0 4px 16px rgba(49,130,206,0.3);}
+.about-tab-name{font-size:14px;font-weight:500;color:var(--text-light);transition:all .3s ease;white-space:nowrap;}
+.about-tab.active .about-tab-name{color:var(--primary);font-weight:600;}
+.about-slider-wrap{position:relative;overflow:hidden;border-radius:var(--radius);margin-top:8px;}
+.about-slider{display:flex;transition:transform .4s cubic-bezier(.25,.46,.45,.94);}
+.about-panel{flex:0 0 100%;background:var(--card);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.about-panel h3{font-family:var(--serif);font-size:20px;color:var(--purple);margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+.about-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;background:var(--card);border-radius:50%;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;z-index:5;transition:all .25s ease;color:var(--primary);border:1px solid var(--border);}
+.about-arrow:hover{background:var(--primary);color:#fff;}
+.about-arrow.prev{left:8px;}
+.about-arrow.next{right:8px;}
+.about-dots{display:flex;justify-content:center;gap:8px;margin-top:16px;}
+.about-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s ease;cursor:pointer;}
+.about-dot.active{background:var(--accent);width:24px;border-radius:4px;}
+
+.edu-item{margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--border);}
+.edu-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.edu-school{font-weight:600;font-size:16px;color:var(--text-deep);}
+.edu-meta{font-size:13px;color:var(--text-lighter);margin-top:3px;}
+.edu-subsection{margin-top:18px;}
+.edu-subtitle{font-size:14px;font-weight:600;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.edu-subtitle::before{content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;}
+.edu-courses{display:flex;flex-wrap:wrap;gap:8px;}
+.edu-course-tag{padding:5px 12px;background:rgba(49,130,206,0.06);color:var(--text-light);border-radius:4px;font-size:13px;}
+.edu-list{list-style:none;}
+.edu-list li{font-size:14px;color:var(--text);padding:5px 0 5px 18px;position:relative;line-height:1.7;}
+.edu-list li::before{content:'';position:absolute;left:0;top:13px;width:7px;height:7px;background:var(--warm);border-radius:50%;}
+.cert-list{display:flex;flex-wrap:wrap;gap:12px;}
+.cert-tag{padding:8px 16px;background:rgba(26,54,93,0.06);color:var(--primary);border-radius:6px;font-size:13px;font-weight:500;transition:all .25s ease;}
+.cert-tag:hover{background:rgba(26,54,93,0.1);transform:translateY(-1px);}
+.skills-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.skill-item{padding:16px 18px;background:var(--bg);border-radius:10px;border-left:3px solid var(--teal);transition:all .3s ease;}
+.skill-item:hover{transform:translateX(4px);box-shadow:var(--shadow);}
+.skill-item:nth-child(2){border-left-color:var(--accent);}
+.skill-item:nth-child(3){border-left-color:var(--warm);}
+.skill-item:nth-child(4){border-left-color:var(--purple);}
+.skill-item:nth-child(5){border-left-color:var(--pink);}
+.skill-name{font-weight:600;font-size:15px;color:var(--text-deep);margin-bottom:5px;}
+.skill-desc{font-size:13px;color:var(--text-light);line-height:1.7;}
+
+/* ===== 作品区邮票 ===== */
+.stamps-wrap{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;padding:20px 0;}
+.stamp-card{width:260px;cursor:pointer;transition:transform .4s ease;position:relative;}
+.stamp-card:hover{transform:translateY(-8px) rotate(-1deg);}
+.stamp-inner{
+  background:
+    radial-gradient(circle 8px at 8px 0, #f7fafc 98%, transparent 100%) 0 0 / 16px 8px repeat-x,
+    radial-gradient(circle 8px at 8px 8px, #f7fafc 98%, transparent 100%) 0 100% / 16px 8px repeat-x,
+    radial-gradient(circle 8px at 0 8px, #f7fafc 98%, transparent 100%) 0 0 / 8px 16px repeat-y,
+    radial-gradient(circle 8px at 8px 8px, #f7fafc 98%, transparent 100%) 100% 0 / 8px 16px repeat-y,
+    #fff;
+  border-radius:4px;
+  padding:40px 24px;
+  text-align:center;
+  position:relative;
+  box-shadow:var(--shadow);
+  transition:all .4s ease;
+  min-height:300px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.stamp-card:hover .stamp-inner{box-shadow:0 12px 40px rgba(49,130,206,0.2);}
+.stamp-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.stamp-card:nth-child(1) .stamp-icon{background:linear-gradient(135deg,rgba(49,130,206,0.15),rgba(49,130,206,0.05));color:var(--accent);}
+.stamp-card:nth-child(2) .stamp-icon{background:linear-gradient(135deg,rgba(128,90,213,0.15),rgba(128,90,213,0.05));color:var(--purple);}
+.stamp-card:nth-child(3) .stamp-icon{background:linear-gradient(135deg,rgba(237,137,54,0.15),rgba(237,137,54,0.05));color:var(--warm);}
+.stamp-cn{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--text-deep);margin-bottom:4px;}
+.stamp-en{font-size:12px;color:var(--text-lighter);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;}
+.stamp-desc{font-size:13px;color:var(--text-light);line-height:1.7;}
+.stamp-arrow{margin-top:16px;font-size:12px;color:var(--accent);display:flex;align-items:center;gap:4px;opacity:0;transform:translateY(4px);transition:all .3s ease;}
+.stamp-card:hover .stamp-arrow{opacity:1;transform:translateY(0);}
+
+/* 作品详情 */
+.works-detail{display:none;}
+.works-detail.active{display:block;animation:fadeIn .4s ease;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:16px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-light);transition:all .25s ease;}
+.back-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* 作品二级页面互跳导航 */
+.works-subnav{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.works-subnav-btn{padding:9px 20px;border-radius:8px;font-size:13px;font-weight:500;background:var(--card);border:1px solid var(--border);color:var(--text-light);transition:all .25s ease;display:inline-flex;align-items:center;gap:6px;}
+.works-subnav-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+.works-subnav-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.works-subnav-btn.active:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.product-hero{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;}
+.product-hero-img{width:100%;height:300px;object-fit:cover;display:block;}
+.product-body{padding:28px;}
+.product-body h2{font-family:var(--serif);font-size:24px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.product-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.product-meta span{font-size:11px;color:var(--text-lighter);padding:3px 10px;background:var(--bg);border-radius:4px;}
+.product-desc{color:var(--text);font-size:13px;line-height:1.8;margin-bottom:20px;}
+.prd-download-wrap{display:flex;justify-content:center;padding:20px;background:linear-gradient(135deg,rgba(49,130,206,0.05),rgba(237,137,54,0.05));border-radius:12px;}
+.prd-btn{padding:13px 32px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-radius:12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;animation:prdBounce .8s ease,prdPulse 3s ease-in-out 1s infinite;transition:transform .3s ease,box-shadow .3s ease;box-shadow:0 4px 16px rgba(49,130,206,0.3);}
+.prd-btn:hover{transform:scale(1.05);box-shadow:0 8px 28px rgba(49,130,206,0.4);}
+@keyframes prdBounce{0%{transform:translateY(20px);opacity:0;}60%{transform:translateY(-6px);opacity:1;}80%{transform:translateY(2px);}100%{transform:translateY(0);}}
+@keyframes prdPulse{0%,100%{box-shadow:0 4px 16px rgba(49,130,206,0.3);}50%{box-shadow:0 4px 28px rgba(49,130,206,0.5);}}
+.product-gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+.gallery-item{border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:transform .3s ease;}
+.gallery-item:hover{transform:translateY(-4px);}
+.gallery-item img{width:100%;display:block;}
+.gallery-caption{padding:10px 14px;font-size:12px;color:var(--text-light);background:var(--card);}
+
+/* 视频 */
+.video-hint{text-align:center;margin-bottom:16px;font-size:13px;color:var(--accent);font-weight:500;animation:hintSway 2s ease-in-out infinite;transition:opacity .5s ease;}
+.video-hint.hidden{opacity:0;pointer-events:none;}
+@keyframes hintSway{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+.video-slider-wrap{position:relative;overflow:hidden;border-radius:var(--radius);}
+.video-slider{display:flex;gap:20px;transition:transform .4s cubic-bezier(.25,.46,.45,.94);cursor:grab;padding:6px 2px;}
+.video-slider:active{cursor:grabbing;}
+.video-card{flex:0 0 calc(46% - 8px);background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);user-select:none;transition:transform .3s ease,box-shadow .3s ease;}
+.video-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);}
+.video-player-wrap{position:relative;background:#000;aspect-ratio:16/9;}
+.video-player-wrap video{width:100%;height:100%;object-fit:cover;display:block;}
+.video-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);cursor:pointer;transition:opacity .3s ease;}
+.video-play-overlay.hidden{opacity:0;pointer-events:none;}
+.play-icon{width:54px;height:54px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s ease;}
+.video-play-overlay:hover .play-icon{transform:scale(1.1);}
+.video-info{padding:18px;}
+.video-cat{font-size:10px;color:var(--pink);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.video-title{font-size:15px;font-weight:600;color:var(--text-deep);margin-bottom:6px;}
+.video-desc{font-size:12px;color:var(--text-light);line-height:1.6;margin-bottom:12px;}
+.video-actions{display:flex;gap:7px;}
+.video-action-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:all .25s ease;}
+.video-action-btn.enlarge{background:rgba(49,130,206,0.1);color:var(--accent);}
+.video-action-btn.enlarge:hover{background:var(--accent);color:#fff;}
+.video-action-btn.volume{background:rgba(128,90,213,0.1);color:var(--purple);}
+.video-action-btn.volume:hover{background:var(--purple);color:#fff;}
+.video-action-btn.volume.muted{opacity:0.55;}
+.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;background:var(--card);border-radius:50%;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;z-index:5;transition:all .25s ease;color:var(--primary);}
+.slider-arrow:hover{background:var(--primary);color:#fff;}
+.slider-arrow.prev{left:10px;}
+.slider-arrow.next{right:10px;}
+.slider-dots{display:flex;justify-content:center;gap:7px;margin-top:16px;}
+.slider-dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s ease;cursor:pointer;}
+.slider-dot.active{background:var(--accent);width:20px;border-radius:4px;}
+
+/* 海报详情 左图右文 */
+.poster-detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+.poster-detail-img{border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);cursor:zoom-in;position:sticky;top:80px;}
+.poster-detail-img img{width:100%;display:block;}
+.poster-detail-content h2{font-family:var(--serif);font-size:24px;background:linear-gradient(135deg,var(--warm),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.poster-detail-cat{font-size:11px;color:var(--warm);font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;}
+.poster-detail-section{margin-bottom:22px;}
+.poster-detail-section h4{font-size:14px;font-weight:600;color:var(--text-deep);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.poster-detail-section h4::before{content:'';width:4px;height:16px;background:var(--warm);border-radius:2px;}
+.poster-detail-section p{font-size:13px;color:var(--text-light);line-height:1.8;}
+.poster-detail-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.poster-detail-tag{padding:4px 12px;background:rgba(237,137,54,0.08);color:var(--warm);border-radius:4px;font-size:11px;}
+.poster-detail-actions{display:flex;gap:10px;margin-top:24px;}
+
+/* ===== 经历区 弧形环导航（3个球） ===== */
+.exp-layout{display:flex;gap:24px;min-height:520px;align-items:flex-start;}
+.exp-arc-nav{flex:0 0 180px;position:relative;min-height:500px;display:flex;align-items:center;justify-content:center;}
+.exp-arc-svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:160px;height:460px;}
+.exp-arc-items{position:relative;z-index:2;display:flex;flex-direction:column;gap:44px;align-items:center;}
+.exp-arc-item{display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .3s ease;padding:8px 12px;border-radius:12px;}
+.exp-arc-item:hover{background:rgba(49,130,206,0.04);}
+.exp-arc-ball{width:38px;height:38px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .3s ease;box-shadow:var(--shadow);flex-shrink:0;font-size:14px;}
+.exp-arc-item.active .exp-arc-ball{background:linear-gradient(135deg,var(--primary),var(--accent));border-color:var(--accent);color:#fff;transform:scale(1.15);box-shadow:0 4px 14px rgba(49,130,206,0.35);}
+.exp-arc-name{font-size:14px;font-weight:500;color:var(--text-light);transition:all .3s ease;white-space:nowrap;}
+.exp-arc-item.active .exp-arc-name{color:var(--primary);font-weight:600;font-size:15px;}
+.exp-content{flex:1;}
+.exp-card{background:var(--card);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow);border:1px solid var(--border);animation:fadeIn .5s ease;}
+.exp-company{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--text-deep);margin-bottom:6px;}
+.exp-date{display:inline-block;font-size:13px;color:var(--accent);padding:4px 14px;background:rgba(49,130,206,0.08);border-radius:6px;margin-bottom:10px;font-weight:500;}
+.exp-role{font-size:16px;color:var(--purple);font-weight:600;margin-bottom:20px;}
+.exp-desc{font-size:14px;color:var(--text);line-height:1.9;margin-bottom:24px;padding:16px 20px;background:var(--bg);border-radius:10px;border-left:3px solid var(--accent);}
+.exp-achievements{list-style:none;}
+.exp-achievements li{font-size:14px;color:var(--text);padding:10px 0 10px 24px;position:relative;line-height:1.8;border-bottom:1px dashed var(--border);}
+.exp-achievements li:last-child{border-bottom:none;}
+.exp-achievements li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:10px;background:var(--warm);border-radius:2px;transform:rotate(45deg);}
+.exp-highlight{color:var(--accent);font-weight:700;background:rgba(49,130,206,0.08);padding:1px 7px;border-radius:4px;}
+.exp-switch-hint{text-align:center;margin-top:20px;font-size:12px;color:var(--text-lighter);display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* 灯箱 */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:none;align-items:center;justify-content:center;padding:40px;}
+.lightbox.active{display:flex;animation:fadeIn .3s ease;}
+.lightbox-content{max-width:90vw;max-height:85vh;position:relative;}
+.lightbox-content img,.lightbox-content video{max-width:90vw;max-height:85vh;border-radius:8px;display:block;}
+.lightbox-close{position:absolute;top:-36px;right:0;width:34px;height:34px;background:rgba(255,255,255,0.15);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;transition:background .25s ease;}
+.lightbox-close:hover{background:rgba(255,255,255,0.3);}
+
+/* 页脚 */
+.footer{background:var(--primary);color:rgba(255,255,255,0.7);padding:28px 32px;text-align:center;font-size:12px;position:relative;z-index:1;}
+.footer a{color:rgba(255,255,255,0.9);}
+.footer a:hover{color:#fff;}
+
+/* 响应式 */
+@media (max-width:768px){
+  .nav{padding:0 16px;}
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:#fff;flex-direction:column;padding:14px;border-bottom:1px solid var(--border);box-shadow:var(--shadow);align-items:stretch;}
+  .nav-links.open{display:flex;}
+  .nav-menu-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;color:var(--primary);}
+  .container{padding:40px 20px;}
+  #home{padding:80px 16px 40px;}
+  .home-wrap{flex-direction:column;gap:20px;align-items:center;}
+  .id-card-wrap{flex:none;width:100%;max-width:340px;}
+  .intro-box{padding:24px;}
+  .about-tabs{gap:16px;flex-wrap:wrap;margin-top:-26px;}
+  .about-tab-ball{width:44px;height:44px;font-size:16px;}
+  .about-tab-name{font-size:12px;}
+  .about-panel{padding:24px;}
+  .skills-two-col{grid-template-columns:1fr;}
+  .stamps-wrap{flex-direction:column;align-items:center;}
+  .works-subnav-btn{padding:7px 14px;font-size:12px;}
+  .product-gallery{grid-template-columns:1fr;}
+  .product-hero-img{height:200px;}
+  .video-card{flex:0 0 100%;}
+  .slider-arrow{display:none;}
+  .poster-detail-layout{grid-template-columns:1fr;gap:24px;}
+  .poster-detail-img{position:static;}
+  .exp-layout{flex-direction:column;gap:20px;}
+  .exp-arc-nav{flex:none;min-height:auto;width:100%;}
+  .exp-arc-svg{display:none;}
+  .exp-arc-items{flex-direction:row;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .exp-card{padding:24px;}
+  .exp-company{font-size:20px;}
+  .section-title{font-size:24px;}
+}
+</style>
+</head>
+<body>
+<canvas id="dotCanvas"></canvas>
+
+<nav class="nav">
+  <a href="#home" class="nav-logo">张琪琪 · 作品集</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#home" class="nav-link active" data-section="home">首页</a>
+    <a href="#about" class="nav-link" data-section="about">关于我</a>
+    <a href="#works" class="nav-link" data-section="works">作品区</a>
+    <a href="#experience" class="nav-link" data-section="experience">经历区</a>
+    <a href="files/resume.pdf" download class="nav-resume">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      下载简历
+    </a>
+  </div>
+  <button class="nav-menu-btn" id="navMenuBtn" aria-label="菜单">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- 首页 -->
+<section class="section" id="home">
+  <div class="home-wrap">
+    <div class="id-card-wrap">
+      <div class="id-card">
+        <img src="images/avatar.jpg" alt="张琪琪证件照" class="id-photo">
+        <div class="id-name-row">
+          <span class="id-name">张琪琪</span>
+          <span class="id-english">Felicity</span>
+        </div>
+        <span class="id-badge">27届应届生</span>
+        <div class="id-divider"></div>
+        <div class="id-contact-label">联系方式</div>
+        <div class="id-contact"><a href="mailto:felicity377@foxmail.com">felicity377@foxmail.com</a></div>
+        <div class="id-motto">
+          <div class="id-motto-cn">为者常成，行者常至</div>
+          <div class="id-motto-en">The constant doer often succeeds;<br>The constant walker often arrives</div>
+        </div>
+        <div class="id-skills">
+          <span class="id-skill-tag">数据分析</span>
+          <span class="id-skill-tag">沟通协调</span>
+          <span class="id-skill-tag">管理决策</span>
+          <span class="id-skill-tag">内容创作</span>
+          <span class="id-skill-tag">跨文化交流</span>
+        </div>
+      </div>
+    </div>
+    <div class="intro-box">
+      <div class="intro-title">张琪琪的个人网站</div>
+      <div class="intro-self">作为一个<strong>ENFJ</strong>，喜欢探索和感受新事物：创作、Vibe Coding、旅行、摄影、运动，乐于把天马行空的想法变为一步一步的 To Do List。</div>
+      <p class="intro-text">该网站由本人借助AI独立设计搭建，始终保持学习与探索的心态～</p>
+      <p class="intro-text">网站将展示本人以下内容：</p>
+      <div class="intro-nav-btns">
+        <a href="#about" class="intro-nav-btn primary">关于我</a>
+        <a href="#works" class="intro-nav-btn outline">作品区</a>
+        <a href="#experience" class="intro-nav-btn outline">经历区</a>
+      </div>
+      <div class="intro-note">
+        <p>所有视频均由本人使用剪映独立完成，部分素材来自AI推荐的免费视频素材网站，涵盖课程作业、学生工作宣传、日常生活创作，记录每一次学习与尝试！</p>
+        <div class="intro-alert">如遇浏览器问题无法快速加载图片/视频，可在简历附件中查看相关作品；点击产品设计图片可查看全图预览。</div>
+      </div>
+    </div>
+  </div>
+  <a href="#about" class="scroll-down" aria-label="向下滚动到关于我"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+</section>
+
+<!-- 关于我 -->
+<section class="section" id="about">
+  <div class="container">
+    <h1 class="section-title">关于我</h1>
+    <div class="section-title-en">About Me</div>
+    <div class="about-header">
+      <div class="about-bold-line"></div>
+      <div class="about-tabs" id="aboutTabs">
+        <div class="about-tab" data-about="edu">
+          <div class="about-tab-ball"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div class="about-tab-name">教育信息</div>
+        </div>
+        <div class="about-tab active" data-about="skill">
+          <div class="about-tab-ball"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="about-tab-name">能力优势</div>
+        </div>
+        <div class="about-tab" data-about="cert">
+          <div class="about-tab-ball"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+          <div class="about-tab-name">专业证书</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-slider-wrap">
+      <button class="about-arrow prev" id="aboutPrev" aria-label="上一个栏目"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="about-slider" id="aboutSlider">
+        <div class="about-panel" id="about-edu">
+          <h3>教育信息</h3>
+          <div class="edu-item"><div class="edu-school">西南交通大学</div><div class="edu-meta">英语笔译硕士 · 2024.09 - 至今</div></div>
+          <div class="edu-item"><div class="edu-school">重庆邮电大学</div><div class="edu-meta">英语本科 · 2020.09 - 2024.06</div></div>
+          <div class="edu-subsection">
+            <div class="edu-subtitle">主修课程</div>
+            <div class="edu-courses">
+              <span class="edu-course-tag">商务翻译</span><span class="edu-course-tag">国际工程合同翻译</span><span class="edu-course-tag">国际市场营销</span><span class="edu-course-tag">跨文化交际</span><span class="edu-course-tag">技术文档写作与编辑</span><span class="edu-course-tag">Excel管理数据分析</span>
+            </div>
+          </div>
+          <div class="edu-subsection">
+            <div class="edu-subtitle">个人荣誉</div>
+            <ul class="edu-list"><li>校级三好学生</li><li>优秀共青团干部</li><li>校长奖学金</li><li>学业奖学金</li></ul>
+          </div>
+        </div>
+        <div class="about-panel" id="about-skill">
+          <h3>能力优势</h3>
+          <div class="skills-two-col">
+            <div class="skill-item"><div class="skill-name">数据分析</div><div class="skill-desc">独立搭建数据看板，基于业务逻辑拆解核心追踪维度，具有多场景生意数据分析经验。</div></div>
+            <div class="skill-item"><div class="skill-name">沟通协调</div><div class="skill-desc">对外开展客情维护，洞察客户需求，对内推动跨部门信息对齐，打通多方协作链路。</div></div>
+            <div class="skill-item"><div class="skill-name">管理决策</div><div class="skill-desc">具备项目从0到1管理运营经验，依托调研输出项目决策，沉淀可复用SOP赋能业务提效增长。</div></div>
+            <div class="skill-item"><div class="skill-name">内容创作</div><div class="skill-desc">胜任文案撰写、公众号推文产出、海报设计、PPT制作、剪映视频剪辑，落地多类型宣传物料输出。</div></div>
+            <div class="skill-item"><div class="skill-name">跨文化交流</div><div class="skill-desc">具备中英双语翻译经验，担任世界古典学大会随行翻译，积累多项笔译项目实操经历。</div></div>
+          </div>
+        </div>
+        <div class="about-panel" id="about-cert">
+          <h3>专业证书</h3>
+          <div class="cert-list" style="margin-bottom:24px;">
+            <span class="cert-tag">英语专业八级 优秀</span><span class="cert-tag">英语六级 619</span><span class="cert-tag">CATTI 三级笔译</span><span class="cert-tag">雅思 7.0</span><span class="cert-tag">BEC 剑桥高级商务英语</span><span class="cert-tag">MS Office 二级</span><span class="cert-tag">德语四级</span>
+          </div>
+          <div class="edu-subsection">
+            <div class="edu-subtitle">学科竞赛</div>
+            <div class="cert-list">
+              <span class="cert-tag">全国大学生英语竞赛A类一等奖</span>
+              <span class="cert-tag">外研社演讲比赛校赛金奖</span>
+              <span class="cert-tag">外研社笔译比赛校赛金奖</span>
+              <span class="cert-tag">外研社视频大赛重庆赛区一等奖</span>
+              <span class="cert-tag">菁英杯翻译大赛省赛英译中一等奖</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="about-arrow next" id="aboutNext" aria-label="下一个栏目"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="about-dots" id="aboutDots"></div>
+  </div>
+  <a href="#works" class="scroll-down" aria-label="向下滚动到作品区"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+</section>
+
+<!-- 作品区 -->
+<section class="section" id="works">
+  <div class="container">
+    <h1 class="section-title">作品区</h1>
+    <div class="section-title-en">Portfolio</div>
+    <div class="stamps-wrap" id="stampsWrap">
+      <div class="stamp-card" data-work="product">
+        <div class="stamp-inner">
+          <div class="stamp-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="stamp-cn">产品设计</div><div class="stamp-en">Product Design</div>
+          <div class="stamp-desc">金勺子食谱APP全流程设计，含完整PRD文档与高保真原型</div>
+          <div class="stamp-arrow">查看详情 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </div>
+      <div class="stamp-card" data-work="video">
+        <div class="stamp-inner">
+          <div class="stamp-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+          <div class="stamp-cn">视频剪辑</div><div class="stamp-en">Video Editing</div>
+          <div class="stamp-desc">课程作业、学生工作宣传、日常生活创作，剪映独立完成</div>
+          <div class="stamp-arrow">查看详情 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </div>
+      <div class="stamp-card" data-work="poster">
+        <div class="stamp-inner">
+          <div class="stamp-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+          <div class="stamp-cn">海报设计</div><div class="stamp-en">Poster Design</div>
+          <div class="stamp-desc">技术写作英文宣传海报，五区块分层排版与词汇云设计</div>
+          <div class="stamp-arrow">查看详情 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 产品设计详情 -->
+    <div class="works-detail" id="detail-product">
+      <button class="back-btn" data-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>返回作品区</button>
+      <div class="works-subnav">
+        <button class="works-subnav-btn active" data-subnav="product">产品设计</button>
+        <button class="works-subnav-btn" data-subnav="video">视频剪辑</button>
+        <button class="works-subnav-btn" data-subnav="poster">海报设计</button>
+      </div>
+      <div class="product-hero">
+        <img src="images/product-hifi.jpg" alt="金勺子APP高保真设计稿" class="product-hero-img">
+        <div class="product-body">
+          <h2>「金勺子」食谱烹饪学习APP</h2>
+          <div class="product-meta"><span>产品设计课程实践项目</span><span>团队负责人</span><span>2024.10 - 2025.01</span><span>4人团队</span></div>
+          <p class="product-desc">统筹课程小组完成一款面向烹饪新手食谱学习APP的产品构思与设计，完成产品调研分析、需求拆解、功能规划、原型输出与风险预判全流程，输出完整PRD文档。聚焦年轻新手群体烹饪痛点，确立「定制化食材菜谱智能匹配」的差异化产品定位，完成菜谱推荐、食材智能匹配、生鲜采购、个人中心四大模块设计。</p>
+          <div class="prd-download-wrap"><a href="files/product-prd.docx" download class="prd-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>下载产品设计项目PRD</a></div>
+        </div>
+      </div>
+      <div class="product-gallery">
+        <div class="gallery-item" data-lightbox="images/product-research.jpg"><img src="images/product-research.jpg" alt="用户调研维度表"><div class="gallery-caption">用户调研维度分析（9大维度）</div></div>
+        <div class="gallery-item" data-lightbox="images/product-framework.jpg"><img src="images/product-framework.jpg" alt="产品框架图"><div class="gallery-caption">产品框架思维导图（四大板块）</div></div>
+        <div class="gallery-item" data-lightbox="images/product-wireframe.jpg"><img src="images/product-wireframe.jpg" alt="低保真设计稿"><div class="gallery-caption">低保真原型设计（首页布局）</div></div>
+        <div class="gallery-item" data-lightbox="images/product-hifi.jpg"><img src="images/product-hifi.jpg" alt="高保真设计稿"><div class="gallery-caption">高保真原型设计（首页+博主详情页）</div></div>
+      </div>
+    </div>
+
+    <!-- 视频剪辑详情 -->
+    <div class="works-detail" id="detail-video">
+      <button class="back-btn" data-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>返回作品区</button>
+      <div class="works-subnav">
+        <button class="works-subnav-btn" data-subnav="product">产品设计</button>
+        <button class="works-subnav-btn active" data-subnav="video">视频剪辑</button>
+        <button class="works-subnav-btn" data-subnav="poster">海报设计</button>
+      </div>
+      <p class="video-hint" id="videoHint">左右滑动即可浏览更多作品集</p>
+      <div class="video-slider-wrap">
+        <button class="slider-arrow prev" id="sliderPrev" aria-label="上一个"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="video-slider" id="videoSlider">
+          <div class="video-card"><div class="video-player-wrap"><video src="videos/voyant-tools.mp4" preload="metadata" playsinline></video><div class="video-play-overlay"><div class="play-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1a365d"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div><div class="video-info"><div class="video-cat">课程作业</div><div class="video-title">Voyant Tools使用方法介绍</div><div class="video-desc">学业课程作业，讲解工具核心功能、使用方法、步骤演示，素材来源于AI推荐的免费视频素材网站。</div><div class="video-actions"><button class="video-action-btn enlarge" data-video-enlarge="videos/voyant-tools.mp4">放大播放</button><button class="video-action-btn volume" data-volume><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>音量</button></div></div></div>
+          <div class="video-card"><div class="video-player-wrap"><video src="videos/national-day.mp4" preload="metadata" playsinline></video><div class="video-play-overlay"><div class="play-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1a365d"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div><div class="video-info"><div class="video-cat">学生工作 · 节日宣传</div><div class="video-title">外国语学院国庆节祝福视频</div><div class="video-desc">研究生会工作成果，学院节日宣传视频，一个画面整合多个视频素材，宣传范围覆盖全院500+师生。</div><div class="video-actions"><button class="video-action-btn enlarge" data-video-enlarge="videos/national-day.mp4">放大播放</button><button class="video-action-btn volume" data-volume><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>音量</button></div></div></div>
+          <div class="video-card"><div class="video-player-wrap"><video src="videos/graduation.mp4" preload="metadata" playsinline></video><div class="video-play-overlay"><div class="play-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1a365d"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div><div class="video-info"><div class="video-cat">学生工作 · 毕业宣传</div><div class="video-title">毕业季祝福视频</div><div class="video-desc">毕业生欢送会配套视频，涉及多个片段穿插剪辑，营造学院师生的温情氛围。</div><div class="video-actions"><button class="video-action-btn enlarge" data-video-enlarge="videos/graduation.mp4">放大播放</button><button class="video-action-btn volume" data-volume><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>音量</button></div></div></div>
+          <div class="video-card"><div class="video-player-wrap"><video src="videos/disney-vlog.mp4" preload="metadata" playsinline></video><div class="video-play-overlay"><div class="play-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1a365d"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div><div class="video-info"><div class="video-cat">日常创作 · 生活记录</div><div class="video-title">迪士尼游玩vlog</div><div class="video-desc">个人生活剪辑，捕捉游玩美好瞬间，侧重节奏把控、丝滑转场、趣味画面拼接。</div><div class="video-actions"><button class="video-action-btn enlarge" data-video-enlarge="videos/disney-vlog.mp4">放大播放</button><button class="video-action-btn volume" data-volume><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>音量</button></div></div></div>
+        </div>
+        <button class="slider-arrow next" id="sliderNext" aria-label="下一个"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+
+    <!-- 海报设计详情 左图右文 -->
+    <div class="works-detail" id="detail-poster">
+      <button class="back-btn" data-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>返回作品区</button>
+      <div class="works-subnav">
+        <button class="works-subnav-btn" data-subnav="product">产品设计</button>
+        <button class="works-subnav-btn" data-subnav="video">视频剪辑</button>
+        <button class="works-subnav-btn active" data-subnav="poster">海报设计</button>
+      </div>
+      <div class="poster-detail-layout">
+        <div class="poster-detail-img" data-lightbox="images/poster.png"><img src="images/poster.png" alt="技术写作英文宣传海报"></div>
+        <div class="poster-detail-content">
+          <div class="poster-detail-cat">Poster Design · 海报设计</div>
+          <h2>技术写作英文宣传海报</h2>
+          <div class="poster-detail-section"><h4>作品概述</h4><p>围绕「技术写作导论」主题独立设计的英文宣传海报，系统介绍技术写作的核心概念与应用领域。采用紫色主色调，五区块分层排版，配合行业词汇云设计，兼具信息传达与视觉美感。</p></div>
+          <div class="poster-detail-section"><h4>设计亮点</h4><p>海报以清晰的视觉层级引导阅读：顶部主题区醒目突出，中部三大目的区（Inform / Instruct / Persuade）并列呈现，底部行业词汇云以动态排版展示技术写作的广泛应用场景。整体配色统一，信息密度适中。</p></div>
+          <div class="poster-detail-section"><h4>涉及内容</h4><div class="poster-detail-tags"><span class="poster-detail-tag">技术写作定义</span><span class="poster-detail-tag">三大目的</span><span class="poster-detail-tag">17+ 涉及行业</span><span class="poster-detail-tag">八大类型</span><span class="poster-detail-tag">行业词汇云</span><span class="poster-detail-tag">英文排版</span></div></div>
+          <div class="poster-detail-actions">
+            <button class="video-action-btn enlarge" data-lightbox="images/poster.png" style="padding:10px 20px;font-size:13px;">查看全图</button>
+            <a href="images/poster.png" download class="video-action-btn download" style="padding:10px 20px;font-size:13px;">下载海报</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#experience" class="scroll-down" aria-label="向下滚动到经历区"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+</section>
+
+<!-- 经历区 -->
+<section class="section" id="experience">
+  <div class="container">
+    <h1 class="section-title">经历区</h1>
+    <div class="section-title-en">Experience</div>
+    <div class="exp-layout">
+      <div class="exp-arc-nav">
+        <svg class="exp-arc-svg" viewBox="0 0 160 460" fill="none">
+          <path d="M 80 30 Q 140 230 80 430" stroke="url(#arcGrad)" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+          <defs><linearGradient id="arcGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a365d"/><stop offset="100%" stop-color="#3182ce"/></linearGradient></defs>
+        </svg>
+        <div class="exp-arc-items">
+          <div class="exp-arc-item active" data-exp="0">
+            <div class="exp-arc-ball"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <span class="exp-arc-name">实习经历1</span>
+          </div>
+          <div class="exp-arc-item" data-exp="1">
+            <div class="exp-arc-ball"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <span class="exp-arc-name">实习经历2</span>
+          </div>
+          <div class="exp-arc-item" data-exp="2">
+            <div class="exp-arc-ball"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+            <span class="exp-arc-name">实习经历3</span>
+          </div>
+        </div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-card" id="expCard"></div>
+        <div class="exp-switch-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>下滑或点击左侧栏目切换下一段经历</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose" aria-label="关闭"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="lightboxBody"></div>
+  </div>
+</div>
+
+<footer class="footer"><p>张琪琪 · 个人作品集 &nbsp;|&nbsp; 邮箱：<a href="mailto:felicity377@foxmail.com">felicity377@foxmail.com</a> &nbsp;|&nbsp; <a href="files/resume.pdf" download>下载简历</a></p></footer>
+
+<script>
+// 波点背景
+(function(){
+  const c=document.getElementById('dotCanvas'),ctx=c.getContext('2d');
+  let dots=[],m={x:-1000,y:-1000};
+  const B=['rgba(49,130,206,0.38)','rgba(237,137,54,0.35)','rgba(128,90,213,0.32)','rgba(38,198,218,0.3)','rgba(236,72,153,0.28)','rgba(72,187,120,0.3)'];
+  const S=['rgba(49,130,206,0.16)','rgba(237,137,54,0.14)','rgba(128,90,213,0.13)','rgba(38,198,218,0.13)','rgba(26,54,93,0.09)'];
+  function rs(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){dots=[];for(let i=0;i<40;i++){const big=Math.random()>.5,r=big?Math.random()*16+8:Math.random()*5+3;dots.push({x:Math.random()*c.width,y:Math.random()*c.height,r,baseR:r,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,color:big?B[Math.floor(Math.random()*B.length)]:S[Math.floor(Math.random()*S.length)],phase:Math.random()*Math.PI*2});}}
+  function draw(t){ctx.clearRect(0,0,c.width,c.height);dots.forEach(d=>{const dx=m.x-d.x,dy=m.y-d.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<140){const f=(140-dist)/140*.4;d.x+=dx/dist*f;d.y+=dy/dist*f;d.r=d.baseR+f*2.5;}else{d.r+=(d.baseR-d.r)*.05;}d.x+=d.vx;d.y+=d.vy+Math.sin(t*.001+d.phase)*.15;if(d.x<-20)d.x=c.width+20;if(d.x>c.width+20)d.x=-20;if(d.y<-20)d.y=c.height+20;if(d.y>c.height+20)d.y=-20;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=d.color;ctx.fill();});requestAnimationFrame(draw);}
+  addEventListener('resize',()=>{rs();init();});addEventListener('mousemove',e=>{m.x=e.clientX;m.y=e.clientY;});addEventListener('mouseleave',()=>{m.x=-1000;m.y=-1000;});rs();init();requestAnimationFrame(draw);
+})();
+
+// 滚动导航高亮
+(function(){const ids=['home','about','works','experience'],ls=document.querySelectorAll('.nav-link[data-section]');function up(){const y=scrollY+100;let cur='home';ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)cur=id;});ls.forEach(l=>l.classList.toggle('active',l.dataset.section===cur));}addEventListener('scroll',up,{passive:true});up();})();
+
+// 移动端菜单
+document.getElementById('navMenuBtn').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+document.querySelectorAll('.nav-link[data-section]').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+
+// 关于我 三栏目滑动（默认显示能力优势 idx=1）
+(function(){
+  const slider=document.getElementById('aboutSlider'),tabs=document.querySelectorAll('.about-tab'),dotsC=document.getElementById('aboutDots');
+  const panels=slider.querySelectorAll('.about-panel');
+  let idx=1,drag=false,sx=0,ct=0,pt=0;
+  const pw=()=>slider.parentElement.offsetWidth;
+  function update(){ct=-idx*pw();slider.style.transform='translateX('+ct+'px)';dots();}
+  function dots(){dotsC.innerHTML='';for(let i=0;i<panels.length;i++){const d=document.createElement('div');d.className='about-dot'+(i===idx?' active':'');d.addEventListener('click',()=>{idx=i;update();});dotsC.appendChild(d);}}
+  function setTab(i){tabs.forEach(t=>t.classList.remove('active'));tabs[i].classList.add('active');idx=i;update();}
+  tabs.forEach((t,i)=>t.addEventListener('click',()=>setTab(i)));
+  document.getElementById('aboutPrev').addEventListener('click',()=>{if(idx>0){idx--;setTab(idx);}});
+  document.getElementById('aboutNext').addEventListener('click',()=>{if(idx<panels.length-1){idx++;setTab(idx);}});
+  slider.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].pageX-slider.offsetLeft;slider.style.transition='none';},{passive:true});
+  slider.addEventListener('touchmove',e=>{if(!drag)return;ct=pt+(e.touches[0].pageX-slider.offsetLeft-sx);slider.style.transform='translateX('+ct+'px)';},{passive:true});
+  slider.addEventListener('touchend',()=>{drag=false;slider.style.transition='transform .4s cubic-bezier(.25,.46,.45,.94)';const m=ct-pt;if(m<-50&&idx<panels.length-1)idx++;if(m>50&&idx>0)idx--;setTab(idx);pt=ct;});
+  addEventListener('resize',()=>{update();pt=ct;});dots();update();
+})();
+
+// 作品区 邮票->详情切换
+const sw=document.getElementById('stampsWrap'),ds=document.querySelectorAll('.works-detail');
+document.querySelectorAll('.stamp-card').forEach(card=>card.addEventListener('click',()=>{sw.style.display='none';ds.forEach(d=>d.classList.remove('active'));document.getElementById('detail-'+card.dataset.work).classList.add('active');document.querySelector('#works .container').scrollIntoView({behavior:'smooth'});}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>{ds.forEach(d=>d.classList.remove('active'));sw.style.display='flex';}));
+
+// 作品二级页面互跳
+document.querySelectorAll('.works-subnav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=btn.dataset.subnav;
+    ds.forEach(d=>d.classList.remove('active'));
+    document.getElementById('detail-'+target).classList.add('active');
+    document.querySelectorAll('.works-subnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.subnav===target));
+  });
+});
+
+// 视频播放
+document.querySelectorAll('.video-play-overlay').forEach(o=>o.addEventListener('click',()=>{const v=o.previousElementSibling;v.play();o.classList.add('hidden');}));
+document.querySelectorAll('.video-player-wrap video').forEach(v=>v.addEventListener('click',()=>{if(v.paused){v.play();v.nextElementSibling.classList.add('hidden');}else{v.pause();v.nextElementSibling.classList.remove('hidden');}}));
+
+// 视频音量
+document.querySelectorAll('[data-volume]').forEach(b=>b.addEventListener('click',()=>{const v=b.closest('.video-card').querySelector('video');v.muted=!v.muted;b.classList.toggle('muted',v.muted);const ic=b.querySelector('svg');ic.innerHTML=v.muted?'<line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>':'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>';}));
+
+// 视频滑动
+(function(){const sl=document.getElementById('videoSlider'),hi=document.getElementById('videoHint'),dc=document.getElementById('sliderDots'),cs=sl.querySelectorAll('.video-card');let idx=0,drag=false,sx=0,ct=0,pt=0,dm=false;const cw=()=>cs[0].offsetWidth+20,mi=()=>innerWidth<=768?cs.length-1:cs.length-2;function up(){ct=-idx*cw();sl.style.transform='translateX('+ct+'px)';dt();}function dt(){dc.innerHTML='';for(let i=0;i<=mi();i++){const d=document.createElement('div');d.className='slider-dot'+(i===idx?' active':'');d.addEventListener('click',()=>{idx=i;up();});dc.appendChild(d);}}function dh(){if(!dm){dm=true;hi.classList.add('hidden');}}
+sl.addEventListener('mousedown',e=>{drag=true;sx=e.pageX-sl.offsetLeft;sl.style.transition='none';dh();});
+sl.addEventListener('mousemove',e=>{if(!drag)return;ct=pt+(e.pageX-sl.offsetLeft-sx);sl.style.transform='translateX('+ct+'px)';});
+sl.addEventListener('mouseup',()=>{drag=false;sl.style.transition='transform .4s cubic-bezier(.25,.46,.45,.94)';const m=ct-pt;if(m<-70&&idx<mi())idx++;if(m>70&&idx>0)idx--;up();pt=ct;});
+sl.addEventListener('mouseleave',()=>{if(drag){drag=false;sl.style.transition='transform .4s cubic-bezier(.25,.46,.45,.94)';up();pt=ct;}});
+sl.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].pageX-sl.offsetLeft;sl.style.transition='none';dh();},{passive:true});
+sl.addEventListener('touchmove',e=>{if(!drag)return;ct=pt+(e.touches[0].pageX-sl.offsetLeft-sx);sl.style.transform='translateX('+ct+'px)';},{passive:true});
+sl.addEventListener('touchend',()=>{drag=false;sl.style.transition='transform .4s cubic-bezier(.25,.46,.45,.94)';const m=ct-pt;if(m<-40&&idx<mi())idx++;if(m>40&&idx>0)idx--;up();pt=ct;});
+document.getElementById('sliderPrev').addEventListener('click',()=>{if(idx>0){idx--;up();pt=ct;}dh();});
+document.getElementById('sliderNext').addEventListener('click',()=>{if(idx<mi()){idx++;up();pt=ct;}dh();});
+addEventListener('resize',()=>{up();pt=ct;});dt();})();
+
+// 经历区数据（3段经历，关键数据高亮）
+const expList=[
+  {company:'联合利华（中国）有限公司',date:'2026.04 - 至今',role:'Route To Market · 项目运营',desc:'主导区域【U达镇】项目推进及全周期运营，负责客户定位、项目谈判、优化迭代、业务数据看板搭建以及风险监测，提高渠道销售执行质量，提升小店市场覆盖率，助力品牌生意增量释放。',achievements:['市场拓展：基于<span class="exp-highlight">550+</span>个区县多维度数据研判增长空间，输出目标客户画像和项目准入标准，沉淀标杆案例形成可复用SOP，实现项目客户激活<span class="exp-highlight">从0到70+</span>，月环比平均增长<span class="exp-highlight">85%</span>。','项目优化：闭环管理客户引入-激活-转化-留存全链路，推动品牌总部完成项目流程与活动政策迭代，客户转化周期季环比缩短<span class="exp-highlight">40%</span>。','数据监测：搭建区域业务数据看板，拆解用户活跃度、销量、SKU、单产等关键指标，项目启动期GSV<span class="exp-highlight">从0到150W+</span>，月环比平均增长<span class="exp-highlight">145%</span>。']},
+  {company:'快译猫科技有限公司',date:'2025.09 - 2025.12',role:'产品生产部 · 译文审校',desc:'负责产品的质量把控和提升，作为审校团队对接接口，承接多业务线译文复核、问题同步、质量复盘工作，输出标准化质控规范，保障交付产品的质量。',achievements:['内容优化：完成<span class="exp-highlight">15W字</span>技术标准文档、官方公告及合同等译文产品审校，优化术语一致性，提升内容表述与格式规范。','跨部门协同：联动编辑、业务、产品团队，同步审校问题、对齐整改标准，落地问题文档优化解决。','数据复盘：搭建Excel数据分析报表，累计梳理典型问题并形成标准化清单，将译文报错率降低<span class="exp-highlight">35%</span>，团队内容品控效率提升<span class="exp-highlight">60%</span>。']},
+  {company:'西南交通大学 · 研究生会',date:'2024.10 - 2025.10',role:'部长',desc:'统筹部门团队分工与任务排期，负责组织院内学术文化活动、产出宣传内容、支撑学生就业服务。',achievements:['活动策划：牵头院内学术、文体活动筹备，输出完整策划方案，落地学术讲座<span class="exp-highlight">10+场</span>，覆盖全院<span class="exp-highlight">500+</span>师生。','内容运营：负责学院活动宣传（官网、公众号、视频号）全链路工作，撰写活动新闻稿<span class="exp-highlight">20+篇</span>，产出数条宣传视频上线学院官网。','学生就业赋能：运营学院就业信息社区，发布<span class="exp-highlight">180+条</span>就业岗位资讯，触达<span class="exp-highlight">200+</span>应届毕业生。']}
+];
+let expIdx=0;
+function renderExp(){const it=expList[expIdx],card=document.getElementById('expCard');card.style.animation='none';card.offsetHeight;card.style.animation='fadeIn .5s ease';card.innerHTML='<div class="exp-company">'+it.company+'</div><div class="exp-date">'+it.date+'</div><div class="exp-role">'+it.role+'</div><div class="exp-desc">'+it.desc+'</div><ul class="exp-achievements">'+it.achievements.map(a=>'<li>'+a+'</li>').join('')+'</ul>';}
+renderExp();
+document.querySelectorAll('.exp-arc-item').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.exp-arc-item').forEach(x=>x.classList.remove('active'));b.classList.add('active');expIdx=parseInt(b.dataset.exp);renderExp();}));
+let ewl=false;
+document.getElementById('experience').addEventListener('wheel',e=>{if(ewl)return;const r=document.getElementById('experience').getBoundingClientRect();if(r.top>0||r.bottom<innerHeight*0.5)return;if(e.deltaY>30&&expIdx<expList.length-1){expIdx++;document.querySelectorAll('.exp-arc-item').forEach(x=>x.classList.remove('active'));document.querySelector('.exp-arc-item[data-exp="'+expIdx+'"]').classList.add('active');renderExp();ewl=true;setTimeout(()=>ewl=false,800);}else if(e.deltaY<-30&&expIdx>0){expIdx--;document.querySelectorAll('.exp-arc-item').forEach(x=>x.classList.remove('active'));document.querySelector('.exp-arc-item[data-exp="'+expIdx+'"]').classList.add('active');renderExp();ewl=true;setTimeout(()=>ewl=false,800);}},{passive:true});
+
+// 灯箱
+const lb=document.getElementById('lightbox'),lbB=document.getElementById('lightboxBody');
+document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',()=>{const s=el.dataset.lightbox;lbB.innerHTML=s.includes('pdf')?'<iframe src="'+s+'" style="width:85vw;height:80vh;border:none;border-radius:8px;"></iframe>':'<img src="'+s+'" alt="预览">';lb.classList.add('active');}));
+document.querySelectorAll('[data-video-enlarge]').forEach(b=>b.addEventListener('click',()=>{lbB.innerHTML='<video src="'+b.dataset.videoEnlarge+'" controls autoplay style="max-width:90vw;max-height:80vh;border-radius:8px;"></video>';lb.classList.add('active');}));
+document.getElementById('lightboxClose').addEventListener('click',()=>{lb.classList.remove('active');lbB.innerHTML='';});
+lb.addEventListener('click',e=>{if(e.target===lb){lb.classList.remove('active');lbB.innerHTML='';}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){lb.classList.remove('active');lbB.innerHTML='';}});
+</script>
+</body>
+</html>
